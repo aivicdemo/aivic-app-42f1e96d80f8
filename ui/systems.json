@@ -1,0 +1,260 @@
+[
+  {
+    "systemId": "itg-1",
+    "systemName": "そろばん教室運営管理システムの構築",
+    "screens": [
+      {
+        "id": "scr-1778135743407",
+        "name": "月謝管理",
+        "purpose": "生徒の月謝の請求、入金確認、未納管理を行い、教室の収入管理を効率化する",
+        "items": [
+          "月謝一覧表示エリア",
+          "生徒検索フィールド",
+          "学年・クラス絞り込みドロップダウン",
+          "請求月選択カレンダー",
+          "入金状況フィルター（未納・入金済・一部入金）",
+          "生徒名表示ラベル",
+          "月謝金額入力フィールド",
+          "請求日表示ラベル",
+          "入金日入力フィールド",
+          "入金金額入力フィールド",
+          "入金方法選択ラジオボタン（現金・振込・口座振替）",
+          "未納日数表示ラベル"
+        ]
+      },
+      {
+        "id": "scr-1778135778537",
+        "name": "出席管理",
+        "purpose": "生徒の授業出席状況を記録・管理し、出席率の把握や月謝計算の基礎データを提供する",
+        "items": [
+          "授業日選択カレンダー",
+          "クラス選択ドロップダウン",
+          "生徒一覧表示エリア",
+          "出席状況チェックボックス（出席・欠席・遅刻・早退）",
+          "生徒検索ボックス",
+          "一括出席登録ボタン",
+          "出席データ保存ボタン",
+          "出席率表示エリア",
+          "欠席理由入力フィールド",
+          "振替授業設定ボタン",
+          "出席履歴表示ボタン",
+          "保護者通知送信ボタン"
+        ]
+      },
+      {
+        "id": "scr-1778135802323",
+        "name": "保護者連絡",
+        "purpose": "保護者への各種連絡事項の作成・送信・管理を行い、教室運営に関する重要な情報を効率的に伝達する",
+        "items": [
+          "連絡先選択（個別・クラス別・全体）",
+          "連絡種別選択（お知らせ・月謝・出席・イベント・緊急連絡）",
+          "件名入力フィールド",
+          "本文入力エリア",
+          "添付ファイル選択",
+          "送信日時設定（即時・予約送信）",
+          "送信履歴一覧",
+          "既読・未読状況表示",
+          "返信メッセージ確認",
+          "テンプレート選択・保存",
+          "送信確認ダイアログ",
+          "連絡先絞り込み検索"
+        ]
+      },
+      {
+        "id": "scr-1778135812549",
+        "name": "ダッシュボード",
+        "purpose": "そろばん教室の運営状況を一目で把握し、重要な情報や指標を集約表示して効率的な教室管理を支援する",
+        "items": [
+          "本日の出席状況サマリー",
+          "今月の月謝収納状況",
+          "生徒数推移グラフ",
+          "未収金アラート表示",
+          "今日の授業スケジュール",
+          "新規入会者数（今月）",
+          "退会者数（今月）",
+          "出席率ランキング（上位5名）",
+          "月謝未納者一覧",
+          "検定試験予定表示",
+          "保護者からの連絡事項",
+          "システム通知エリア"
+        ]
+      }
+    ],
+    "tableDefinitions": [
+      {
+        "tableName": "生徒マスタ",
+        "purpose": "そろばん教室に通う生徒の基本情報を管理するマスタテーブル",
+        "columns": [
+          {
+            "name": "生徒ID",
+            "type": "uuid",
+            "required": true,
+            "description": "生徒を一意に識別するID"
+          },
+          {
+            "name": "生徒氏名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "生徒のフルネーム"
+          },
+          {
+            "name": "生年月日",
+            "type": "timestamp",
+            "required": true,
+            "description": "生徒の生年月日"
+          },
+          {
+            "name": "学年",
+            "type": "integer",
+            "required": true,
+            "description": "現在の学年（1-12、幼稚園は0）"
+          },
+          {
+            "name": "在籍状況",
+            "type": "boolean",
+            "required": true,
+            "description": "現在在籍中かどうか（true:在籍中、false:退会済み）"
+          },
+          {
+            "name": "入会日",
+            "type": "timestamp",
+            "required": true,
+            "description": "教室への入会日"
+          },
+          {
+            "name": "保護者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "生徒の保護者を識別するID"
+          }
+        ]
+      },
+      {
+        "tableName": "保護者マスタ",
+        "purpose": "そろばん教室に通う生徒の保護者情報を管理するマスタテーブル",
+        "columns": [
+          {
+            "name": "保護者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "保護者を一意に識別するID（主キー）"
+          },
+          {
+            "name": "保護者氏名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "保護者の氏名（姓名）"
+          },
+          {
+            "name": "電話番号",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "緊急連絡先となる保護者の電話番号"
+          },
+          {
+            "name": "メールアドレス",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "お知らせや連絡用のメールアドレス"
+          },
+          {
+            "name": "住所",
+            "type": "text",
+            "required": false,
+            "description": "保護者の住所（請求書送付先等）"
+          },
+          {
+            "name": "登録日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "保護者情報の登録日時"
+          }
+        ]
+      },
+      {
+        "tableName": "月謝管理",
+        "purpose": "生徒の月謝支払い状況と請求情報を管理する",
+        "columns": [
+          {
+            "name": "月謝ID",
+            "type": "uuid",
+            "required": true,
+            "description": "月謝管理の一意識別子"
+          },
+          {
+            "name": "生徒ID",
+            "type": "uuid",
+            "required": true,
+            "description": "生徒マスタへの外部キー"
+          },
+          {
+            "name": "対象年月",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "月謝対象の年月（YYYY-MM形式）"
+          },
+          {
+            "name": "月謝金額",
+            "type": "integer",
+            "required": true,
+            "description": "請求する月謝の金額"
+          },
+          {
+            "name": "支払済フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "月謝の支払い完了状況"
+          },
+          {
+            "name": "支払日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "月謝が支払われた日時"
+          }
+        ]
+      },
+      {
+        "tableName": "出席管理",
+        "purpose": "生徒の授業出席状況を記録・管理するテーブル",
+        "columns": [
+          {
+            "name": "出席ID",
+            "type": "uuid",
+            "required": true,
+            "description": "出席記録の一意識別子"
+          },
+          {
+            "name": "生徒ID",
+            "type": "uuid",
+            "required": true,
+            "description": "生徒マスタとの外部キー"
+          },
+          {
+            "name": "授業日",
+            "type": "timestamp",
+            "required": true,
+            "description": "授業が行われた日時"
+          },
+          {
+            "name": "出席状況",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "出席・欠席・遅刻・早退の区分"
+          },
+          {
+            "name": "振替フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "振替授業かどうかの判定"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "欠席理由や特記事項"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,625 @@
+{
+  "systemId": "itg-1",
+  "systemName": "そろばん教室運営管理システムの構築",
+  "cssTheme": ":root {\n  --primary: #2563eb;\n  --primary-hover: #1d4ed8;\n  --bg-main: #f8fafc;\n  --bg-card: #ffffff;\n  --bg-sidebar: #f1f5f9;\n  --border: #e2e8f0;\n  --text: #1e293b;\n  --text-muted: #475569;\n  --success: #059669;\n  --warning: #d97706;\n  --error: #dc2626;\n  --info: #0284c7;\n  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);\n  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);\n  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);\n  --radius-sm: 0.25rem;\n  --radius-md: 0.375rem;\n  --radius-lg: 0.5rem;\n  --font-size-xs: 0.75rem;\n  --font-size-sm: 0.875rem;\n  --font-size-base: 1rem;\n  --font-size-lg: 1.125rem;\n  --font-size-xl: 1.25rem;\n  --spacing-xs: 0.25rem;\n  --spacing-sm: 0.5rem;\n  --spacing-md: 1rem;\n  --spacing-lg: 1.5rem;\n  --spacing-xl: 2rem;\n  --transition: all 0.2s ease-in-out;\n}",
+  "screens": [
+    {
+      "id": "scr-1778135743407",
+      "name": "月謝管理",
+      "purpose": "生徒の月謝の請求、入金確認、未納管理を行い、教室の収入管理を効率化する",
+      "items": [
+        "月謝一覧表示エリア",
+        "生徒検索フィールド",
+        "学年・クラス絞り込みドロップダウン",
+        "請求月選択カレンダー",
+        "入金状況フィルター（未納・入金済・一部入金）",
+        "生徒名表示ラベル",
+        "月謝金額入力フィールド",
+        "請求日表示ラベル",
+        "入金日入力フィールド",
+        "入金金額入力フィールド",
+        "入金方法選択ラジオボタン（現金・振込・口座振替）",
+        "未納日数表示ラベル"
+      ]
+    },
+    {
+      "id": "scr-1778135778537",
+      "name": "出席管理",
+      "purpose": "生徒の授業出席状況を記録・管理し、出席率の把握や月謝計算の基礎データを提供する",
+      "items": [
+        "授業日選択カレンダー",
+        "クラス選択ドロップダウン",
+        "生徒一覧表示エリア",
+        "出席状況チェックボックス（出席・欠席・遅刻・早退）",
+        "生徒検索ボックス",
+        "一括出席登録ボタン",
+        "出席データ保存ボタン",
+        "出席率表示エリア",
+        "欠席理由入力フィールド",
+        "振替授業設定ボタン",
+        "出席履歴表示ボタン",
+        "保護者通知送信ボタン"
+      ]
+    },
+    {
+      "id": "scr-1778135802323",
+      "name": "保護者連絡",
+      "purpose": "保護者への各種連絡事項の作成・送信・管理を行い、教室運営に関する重要な情報を効率的に伝達する",
+      "items": [
+        "連絡先選択（個別・クラス別・全体）",
+        "連絡種別選択（お知らせ・月謝・出席・イベント・緊急連絡）",
+        "件名入力フィールド",
+        "本文入力エリア",
+        "添付ファイル選択",
+        "送信日時設定（即時・予約送信）",
+        "送信履歴一覧",
+        "既読・未読状況表示",
+        "返信メッセージ確認",
+        "テンプレート選択・保存",
+        "送信確認ダイアログ",
+        "連絡先絞り込み検索"
+      ]
+    },
+    {
+      "id": "scr-1778135812549",
+      "name": "ダッシュボード",
+      "purpose": "そろばん教室の運営状況を一目で把握し、重要な情報や指標を集約表示して効率的な教室管理を支援する",
+      "items": [
+        "本日の出席状況サマリー",
+        "今月の月謝収納状況",
+        "生徒数推移グラフ",
+        "未収金アラート表示",
+        "今日の授業スケジュール",
+        "新規入会者数（今月）",
+        "退会者数（今月）",
+        "出席率ランキング（上位5名）",
+        "月謝未納者一覧",
+        "検定試験予定表示",
+        "保護者からの連絡事項",
+        "システム通知エリア"
+      ]
+    }
+  ],
+  "screenPanels": [
+    {
+      "screenId": "scr-1778135743407",
+      "panelHtml": "<div class=\"dashboard-grid\" style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px;\">\n  <div class=\"card\">\n    <h3 style=\"margin: 0 0 10px 0; color: var(--text); font-size: 14px;\">今月の総収入</h3>\n    <div style=\"font-size: 28px; font-weight: bold; color: var(--primary);\" id=\"kpi-monthly-income\">¥0</div>\n    <div style=\"font-size: 12px; color: var(--text-muted); margin-top: 5px;\" id=\"kpi-monthly-change\">前月比 --</div>\n  </div>\n  <div class=\"card\">\n    <h3 style=\"margin: 0 0 10px 0; color: var(--text); font-size: 14px;\">未納件数</h3>\n    <div style=\"font-size: 28px; font-weight: bold; color: #e74c3c;\" id=\"kpi-unpaid-count\">0件</div>\n    <div style=\"font-size: 12px; color: var(--text-muted); margin-top: 5px;\">要確認</div>\n  </div>\n  <div class=\"card\">\n    <h3 style=\"margin: 0 0 10px 0; color: var(--text); font-size: 14px;\">入金済み件数</h3>\n    <div style=\"font-size: 28px; font-weight: bold; color: #27ae60;\" id=\"kpi-paid-count\">0件</div>\n    <div style=\"font-size: 12px; color: var(--text-muted); margin-top: 5px;\">今月分</div>\n  </div>\n  <div class=\"card\">\n    <h3 style=\"margin: 0 0 10px 0; color: var(--text); font-size: 14px;\">平均月謝額</h3>\n    <div style=\"font-size: 28px; font-weight: bold; color: var(--primary);\" id=\"kpi-avg-fee\">¥0</div>\n    <div style=\"font-size: 12px; color: var(--text-muted); margin-top: 5px;\">全生徒平均</div>\n  </div>\n</div>\n\n<div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;\">\n  <div class=\"card\">\n    <h3 style=\"margin: 0 0 15px 0; color: var(--text);\">月別収入推移</h3>\n    <div class=\"chart-wrap\" style=\"position:relative;height:260px;max-height:280px;\">\n      <canvas id=\"income-chart\"></canvas>\n    </div>\n  </div>\n  <div class=\"card\">\n    <h3 style=\"margin: 0 0 15px 0; color: var(--text);\">支払い状況</h3>\n    <div class=\"chart-wrap\" style=\"position:relative;height:260px;max-height:280px;\">\n      <canvas id=\"payment-status-chart\"></canvas>\n    </div>\n  </div>\n</div>\n\n<div class=\"card\">\n  <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;\">\n    <h2 style=\"margin: 0; color: var(--text);\">月謝管理</h2>\n    <div style=\"display: flex; gap: 10px;\">\n      <button class=\"action-btn secondary\" onclick=\"window.showScreen('scr-1778135812549')\">ダッシュボード</button>\n      <button class=\"action-btn secondary\" onclick=\"window.showScreen('scr-1778135778537')\">出席管理</button>\n      <button class=\"action-btn secondary\" onclick=\"window.showScreen('scr-1778135802323')\">保護者連絡</button>\n    </div>\n  </div>\n\n  <div style=\"display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px;\">\n    <div>\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text); font-weight: 500;\">生徒検索</label>\n      <input type=\"text\" id=\"input-search\" class=\"input\" placeholder=\"生徒名で検索\">\n    </div>\n    <div>\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text); font-weight: 500;\">学年絞り込み</label>\n      <select id=\"select-grade\" class=\"input\">\n        <option value=\"\">全学年</option>\n        <option value=\"0\">幼稚園</option>\n        <option value=\"1\">1年生</option>\n        <option value=\"2\">2年生</option>\n        <option value=\"3\">3年生</option>\n        <option value=\"4\">4年生</option>\n        <option value=\"5\">5年生</option>\n        <option value=\"6\">6年生</option>\n        <option value=\"7\">中学1年</option>\n        <option value=\"8\">中学2年</option>\n        <option value=\"9\">中学3年</option>\n      </select>\n    </div>\n    <div>\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text); font-weight: 500;\">対象年月</label>\n      <input type=\"month\" id=\"input-target-month\" class=\"input\">\n    </div>\n    <div>\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text); font-weight: 500;\">支払い状況</label>\n      <select id=\"select-payment-status\" class=\"input\">\n        <option value=\"\">全て</option>\n        <option value=\"unpaid\">未納</option>\n        <option value=\"paid\">入金済</option>\n      </select>\n    </div>\n  </div>\n\n  <div style=\"display: flex; gap: 10px; margin-bottom: 20px;\">\n    <button id=\"btn-search\" class=\"action-btn secondary\">検索</button>\n    <button id=\"btn-export\" class=\"action-btn secondary\">CSVエクスポート</button>\n  </div>\n\n  <div class=\"table-wrap\">\n    <table>\n      <thead>\n        <tr>\n          <th>生徒名</th>\n          <th>学年</th>\n          <th>対象年月</th>\n          <th>月謝金額</th>\n          <th>支払い状況</th>\n          <th>支払日</th>\n          <th>未納日数</th>\n          <th>操作</th>\n        </tr>\n      </thead>\n      <tbody id=\"fee-table-body\">\n      </tbody>\n    </table>\n  </div>\n</div>\n\n<div class=\"card\" style=\"margin-top: 20px;\">\n  <h3 style=\"margin: 0 0 20px 0; color: var(--text);\">月謝情報登録・編集</h3>\n  <div style=\"display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px;\">\n    <div>\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text); font-weight: 500;\">生徒選択</label>\n      <select id=\"select-student\" class=\"input\" required>\n        <option value=\"\">生徒を選択してください</option>\n      </select>\n    </div>\n    <div>\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text); font-weight: 500;\">対象年月</label>\n      <input type=\"month\" id=\"input-fee-month\" class=\"input\" required>\n    </div>\n    <div>\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text); font-weight: 500;\">月謝金額</label>\n      <input type=\"number\" id=\"input-fee-amount\" class=\"input\" placeholder=\"8000\" required>\n    </div>\n  </div>\n  \n  <div style=\"display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px;\">\n    <div>\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text); font-weight: 500;\">支払日</label>\n      <input type=\"date\" id=\"input-payment-date\" class=\"input\">\n    </div>\n    <div>\n      <label style=\"display: block; margin-bottom: 10px; color: var(--text); font-weight: 500;\">支払い状況</label>\n      <div style=\"display: flex; gap: 15px;\">\n        <label style=\"display: flex; align-items: center; gap: 5px; color: var(--text);\">\n          <input type=\"radio\" name=\"payment-status\" value=\"false\" checked>\n          未納\n        </label>\n        <label style=\"display: flex; align-items: center; gap: 5px; color: var(--text);\">\n          <input type=\"radio\" name=\"payment-status\" value=\"true\">\n          入金済\n        </label>\n      </div>\n    </div>\n    <div>\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text); font-weight: 500;\">備考</label>\n      <input type=\"text\" id=\"input-memo\" class=\"input\" placeholder=\"支払い方法など\">\n    </div>\n  </div>\n\n  <div style=\"display: flex; gap: 10px;\">\n    <button id=\"btn-save\" class=\"action-btn\">登録</button>\n    <button id=\"btn-update\" class=\"action-btn secondary\" style=\"display: none;\">更新</button>\n    <button id=\"btn-cancel\" class=\"action-btn secondary\" style=\"display: none;\">キャンセル</button>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  let currentEditId = null;\n  \n  // 生徒データとの結合用\n  const studentMap = new Map();\n  if (tables[0]) {\n    tables[0].records.forEach(student => {\n      studentMap.set(student.生徒ID, student);\n    });\n  }\n\n  // 生徒選択ドロップダウンの初期化\n  function initStudentSelect() {\n    const select = container.querySelector('#select-student');\n    select.innerHTML = '<option value=\"\">生徒を選択してください</option>';\n    \n    if (tables[0]) {\n      tables[0].records.filter(s => s.在籍状況).forEach(student => {\n        const option = document.createElement('option');\n        option.value = student.生徒ID;\n        option.textContent = `${student.生徒氏名} (${student.学年}年生)`;\n        select.appendChild(option);\n      });\n    }\n  }\n\n  // 学年表示用関数\n  function getGradeText(grade) {\n    if (grade === 0) return '幼稚園';\n    if (grade <= 6) return `${grade}年生`;\n    if (grade <= 9) return `中${grade - 6}年`;\n    return `${grade}年`;\n  }\n\n  // 未納日数計算\n  function getUnpaidDays(targetMonth, isPaid) {\n    if (isPaid) return 0;\n    const targetDate = new Date(targetMonth + '-01');\n    const today = new Date();\n    const diffTime = today - targetDate;\n    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));\n    return Math.max(0, diffDays);\n  }\n\n  // テーブル再描画関数\n  function renderRows(rows) {\n    const tbody = container.querySelector('#fee-table-body');\n    tbody.innerHTML = rows.map(row => {\n      const student = studentMap.get(row.生徒ID);\n      const studentName = student ? student.生徒氏名 : '不明';\n      const grade = student ? getGradeText(student.学年) : '-';\n      const isPaid = row.支払済フラグ;\n      const statusBadge = isPaid \n        ? '<span style=\"background: #27ae60; color: #d0e4ff; padding: 2px 8px; border-radius: 12px; font-size: 12px;\">入金済</span>'\n        : '<span style=\"background: #e74c3c; color: #d0e4ff; padding: 2px 8px; border-radius: 12px; font-size: 12px;\">未納</span>';\n      const paymentDate = row.支払日時 ? new Date(row.支払日時).toLocaleDateString('ja-JP') : '-';\n      const unpaidDays = getUnpaidDays(row.対象年月, isPaid);\n      \n      return `\n        <tr data-id=\"${row.月謝ID}\">\n          <td style=\"color: var(--text);\">${studentName}</td>\n          <td style=\"color: var(--text);\">${grade}</td>\n          <td style=\"color: var(--text);\">${row.対象年月}</td>\n          <td style=\"color: var(--text);\">¥${(row.月謝金額 || 0).toLocaleString()}</td>\n          <td>${statusBadge}</td>\n          <td style=\"color: var(--text);\">${paymentDate}</td>\n          <td style=\"color: var(--text);\">${unpaidDays > 0 ? unpaidDays + '日' : '-'}</td>\n          <td>\n            <button class=\"action-btn secondary edit-btn\" data-id=\"${row.月謝ID}\">編集</button>\n            <button class=\"action-btn secondary delete-btn\" data-id=\"${row.月謝ID}\">削除</button>\n          </td>\n        </tr>\n      `;\n    }).join('');\n  }\n\n  // KPI更新\n  function updateKPIs(rows) {\n    const currentMonth = new Date().toISOString().slice(0, 7);\n    const lastMonth = new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().slice(0, 7);\n    \n    const currentMonthRows = rows.filter(r => r.対象年月 === currentMonth);\n    const lastMonthRows = rows.filter(r => r.対象年月 === lastMonth);\n    \n    const monthlyIncome = currentMonthRows.filter(r => r.支払済フラグ).reduce((sum, r) => sum + (r.月謝金額 || 0), 0);\n    const lastMonthIncome = lastMonthRows.filter(r => r.支払済フラグ).reduce((sum, r) => sum + (r.月謝金額 || 0), 0);\n    const unpaidCount = currentMonthRows.filter(r => !r.支払済フラグ).length;\n    const paidCount = currentMonthRows.filter(r => r.支払済フラグ).length;\n    const avgFee = rows.length > 0 ? Math.round(rows.reduce((sum, r) => sum + (r.月謝金額 || 0), 0) / rows.length) : 0;\n    \n    const changePercent = lastMonthIncome > 0 ? Math.round(((monthlyIncome - lastMonthIncome) / lastMonthIncome) * 100) : 0;\n    const changeText = changePercent > 0 ? `+${changePercent}%` : `${changePercent}%`;\n    \n    container.querySelector('#kpi-monthly-income').textContent = `¥${monthlyIncome.toLocaleString()}`;\n    container.querySelector('#kpi-monthly-change').textContent = `前月比 ${changeText}`;\n    container.querySelector('#kpi-unpaid-count').textContent = `${unpaidCount}件`;\n    container.querySelector('#kpi-paid-count').textContent = `${paidCount}件`;\n    container.querySelector('#kpi-avg-fee').textContent = `¥${avgFee.toLocaleString()}`;\n  }\n\n  // グラフ初期化\n  function initCharts(rows) {\n    // 月別収入推移グラフ\n    const monthlyData = {};\n    rows.filter(r => r.支払済フラグ).forEach(row => {\n      const month = row.対象年月;\n      monthlyData[month] = (monthlyData[month] || 0) + (row.月謝金額 || 0);\n    });\n    \n    const sortedMonths = Object.keys(monthlyData).sort();\n    const incomeData = sortedMonths.map(month => monthlyData[month]);\n    \n    const incomeCtx = container.querySelector('#income-chart').getContext('2d');\n    new Chart(incomeCtx, {\n      type: 'line',\n      data: {\n        labels: sortedMonths,\n        datasets: [{\n          label: '月別収入',\n          data: incomeData,\n          borderColor: '#3498db',\n          backgroundColor: 'rgba(52, 152, 219, 0.1)',\n          tension: 0.4\n        }]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false,\n        scales: {\n          y: {\n            beginAtZero: true,\n            ticks: {\n              callback: function(value) {\n                return '¥' + value.toLocaleString();\n              }\n            }\n          }\n        }\n      }\n    });\n\n    // 支払い状況円グラフ\n    const paidCount = rows.filter(r => r.支払済フラグ).length;\n    const unpaidCount = rows.filter(r => !r.支払済フラグ).length;\n    \n    const statusCtx = container.querySelector('#payment-status-chart').getContext('2d');\n    new Chart(statusCtx, {\n      type: 'doughnut',\n      data: {\n        labels: ['入金済', '未納'],\n        datasets: [{\n          data: [paidCount, unpaidCount],\n          backgroundColor: ['#27ae60', '#e74c3c']\n        }]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false\n      }\n    });\n  }\n\n  // 初期データ読み込みと描画\n  window.aivicApi.list(2).then(rows => {\n    if (rows) {\n      renderRows(rows);\n      updateKPIs(rows);\n      initCharts(rows);\n    }\n  });\n\n  // 生徒選択ドロップダウン初期化\n  initStudentSelect();\n\n  // 検索機能\n  container.querySelector('#btn-search').addEventListener('click', async () => {\n    const keyword = container.querySelector('#input-search').value.toLowerCase();\n    const grade = container.querySelector('#select-grade').value;\n    const targetMonth = container.querySelector('#input-target-month').value;\n    const paymentStatus = container.querySelector('#select-payment-status').value;\n    \n    const rows = await window.aivicApi.list(2);\n    if (!rows) return;\n    \n    const filtered = rows.filter(row => {\n      const student = studentMap.get(row.生徒ID);\n      const matchKeyword = !keyword || (student && student.生徒氏名.toLowerCase().includes(keyword));\n      const matchGrade = !grade || (student && student.学年.toString() === grade);\n      const matchMonth = !targetMonth || row.対象年月 === targetMonth;\n      const matchStatus = !paymentStatus || \n        (paymentStatus === 'paid' && row.支払済フラグ) ||\n        (paymentStatus === 'unpaid' && !row.支払済フラグ);\n      \n      return matchKeyword && matchGrade && matchMonth && matchStatus;\n    });\n    \n    renderRows(filtered);\n  });\n\n  // CSVエクスポート\n  container.querySelector('#btn-export').addEventListener('click', async () => {\n    const rows = await window.aivicApi.list(2);\n    if (!rows) return;\n    \n    const headers = ['生徒名', '学年', '対象年月', '月謝金額', '支払い状況', '支払日', '未納日数'];\n    const csvData = [headers.join(',')];\n    \n    rows.forEach(row => {\n      const student = studentMap.get(row.生徒ID);\n      const studentName = student ? student.生徒氏名 : '不明';\n      const grade = student ? getGradeText(student.学年) : '-';\n      const status = row.支払済フラグ ? '入金済' : '未納';\n      const paymentDate = row.支払日時 ? new Date(row.支払日時).toLocaleDateString('ja-JP') : '';\n      const unpaidDays = getUnpaidDays(row.対象年月, row.支払済フラグ);\n      \n      csvData.push([\n        studentName,\n        grade,\n        row.対象年月,\n        row.月謝金額 || 0,\n        status,\n        paymentDate,\n        unpaidDays > 0 ? unpaidDays + '日' : ''\n      ].join(','));\n    });\n    \n    const csvContent = '\\uFEFF' + csvData.join('\\n');\n    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = '月謝管理_' + new Date().toISOString().slice(0, 10) + '.csv';\n    link.click();\n  });\n\n  // 登録機能\n  container.querySelector('#btn-save').addEventListener('click', async () => {\n    const studentId = container.querySelector('#select-student').value;\n    const targetMonth = container.querySelector('#input-fee-month').value;\n    const amount = parseInt(container.querySelector('#input-fee-amount').value);\n    const paymentDate = container.querySelector('#input-payment-date').value;\n    const isPaid = container.querySelector('input[name=\"payment-status\"]:checked').value === 'true';\n    \n    if (!studentId || !targetMonth || !amount) {\n      alert('必須項目を入力してください');\n      return;\n    }\n    \n    const data = {\n      生徒ID: studentId,\n      対象年月: targetMonth,\n      月謝金額: amount,\n      支払済フラグ: isPaid,\n      支払日時: paymentDate ? new Date(paymentDate).toISOString() : null\n    };\n    \n    const saved = await window.aivicApi.save(2, data);\n    if (saved) {\n      const rows = await window.aivicApi.list(2);\n      if (rows) {\n        renderRows(rows);\n        updateKPIs(rows);\n        initCharts(rows);\n      }\n      \n      // フォームリセット\n      container.querySelector('#select-student').value = '';\n      container.querySelector('#input-fee-month').value = '';\n      container.querySelector('#input-fee-amount').value = '';\n      container.querySelector('#input-payment-date').value = '';\n      container.querySelector('input[name=\"payment-status\"][value=\"false\"]').checked = true;\n      container.querySelector('#input-memo').value = '';\n    }\n  });\n\n  // 更新機能\n  container.querySelector('#btn-update').addEventListener('click', async () => {\n    if (!currentEditId) return;\n    \n    const studentId = container.querySelector('#select-student').value;\n    const targetMonth = container.querySelector('#input-fee-month').value;\n    const amount = parseInt(container.querySelector('#input-fee-amount').value);\n    const paymentDate = container.querySelector('#input-payment-date').value;\n    const isPaid = container.querySelector('input[name=\"payment-status\"]:checked').value === 'true';\n    \n    if (!studentId || !targetMonth || !amount) {\n      alert('必須項目を入力してください');\n      return;\n    }\n    \n    const data = {\n      生徒ID: studentId,\n      対象年月: targetMonth,\n      月謝金額: amount,\n      支払済フラグ: isPaid,\n      支払日時: paymentDate ? new Date(paymentDate).toISOString() : null\n    };\n    \n    const updated = await window.aivicApi.update(2, currentEditId, data);\n    if (updated) {\n      const rows = await window.aivicApi.list(2);\n      if (rows) {\n        renderRows(rows);\n        updateKPIs(rows);\n        initCharts(rows);\n      }\n      \n      // 編集モード終了\n      currentEditId = null;\n      container.querySelector('#btn-save').style.display = 'inline-block';\n      container.querySelector('#btn-update').style.display = 'none';\n      container.querySelector('#btn-cancel').style.display = 'none';\n      \n      // フォームリセット\n      container.querySelector('#select-student').value = '';\n      container.querySelector('#input-fee-month').value = '';\n      container.querySelector('#input-fee-amount').value = '';\n      container.querySelector('#input-payment-date').value = '';\n      container.querySelector('input[name=\"payment-status\"][value=\"false\"]').checked = true;\n      container.querySelector('#input-memo').value = '';\n    }\n  });\n\n  // キャンセル機能\n  container.querySelector('#btn-cancel').addEventListener('click', () => {\n    currentEditId = null;\n    container.querySelector('#btn-save').style.display = 'inline-block';\n    container.querySelector('#btn-update').style.display = 'none';\n    container.querySelector('#btn-cancel').style.display = 'none';\n    \n    // フォームリセット\n    container.querySelector('#select-student').value = '';\n    container.querySelector('#input-fee-month').value = '';\n    container.querySelector('#input-fee-amount').value = '';\n    container.querySelector('#input-payment-date').value = '';\n    container.querySelector('input[name=\"payment-status\"][value=\"false\"]').checked = true;\n    container.querySelector('#input-memo').value = '';\n  });\n\n  // 行レベル操作（編集・削除）\n  container.addEventListener('click', async (e) => {\n    // 削除処理\n    const deleteBtn = e.target.closest('.delete-btn');\n    if (deleteBtn) {\n      if (!confirm('この月謝情報を削除しますか？')) return;\n      \n      const id = deleteBtn.dataset.id;\n      await window.aivicApi.delete(2, id);\n      \n      const rows = await window.aivicApi.list(2);\n      if (rows) {\n        renderRows(rows);\n        updateKPIs(rows);\n        initCharts(rows);\n      }\n      return;\n    }\n    \n    // 編集処理\n    const editBtn = e.target.closest('.edit-btn');\n    if (editBtn) {\n      const id = editBtn.dataset.id;\n      const rows = await window.aivicApi.list(2);\n      if (!rows) return;\n      \n      const row = rows.find(r => r.月謝ID === id);\n      if (!row) return;\n      \n      // フォームに値を設定\n      container.querySelector('#select-student').value = row.生徒ID;\n      container.querySelector('#input-fee-month').value = row.対象年月;\n      container.querySelector('#input-fee-amount').value = row.月謝金額;\n      if (row.支払日時) {\n        container.querySelector('#input-payment-date').value = new Date(row.支払日時).toISOString().slice(0, 10);\n      }\n      container.querySelector(`input[name=\"payment-status\"][value=\"${row.支払済フラグ}\"]`).checked = true;\n      \n      // 編集モードに切り替え\n      currentEditId = id;\n      container.querySelector('#btn-save').style.display = 'none';\n      container.querySelector('#btn-update').style.display = 'inline-block';\n      container.querySelector('#btn-cancel').style.display = 'inline-block';\n    }\n  });\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1778135778537",
+      "panelHtml": "<div class=\"card\">\n  <h2>出席管理</h2>\n  \n  <!-- ナビゲーションボタン -->\n  <div style=\"margin-bottom: 20px;\">\n    <button class=\"action-btn secondary\" id=\"btn-dashboard\">ダッシュボード</button>\n    <button class=\"action-btn secondary\" id=\"btn-tuition\">月謝管理</button>\n    <button class=\"action-btn secondary\" id=\"btn-parent-contact\">保護者連絡</button>\n  </div>\n\n  <!-- 授業日・クラス選択エリア -->\n  <div style=\"display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px;\">\n    <div>\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text);\">授業日</label>\n      <input type=\"date\" id=\"input-class-date\" class=\"input\" style=\"width: 100%;\">\n    </div>\n    <div>\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text);\">クラス</label>\n      <select id=\"select-class\" class=\"input\" style=\"width: 100%;\">\n        <option value=\"\">全クラス</option>\n        <option value=\"初級A\">初級A</option>\n        <option value=\"初級B\">初級B</option>\n        <option value=\"中級A\">中級A</option>\n        <option value=\"中級B\">中級B</option>\n        <option value=\"上級\">上級</option>\n      </select>\n    </div>\n    <div>\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text);\">生徒検索</label>\n      <input type=\"text\" id=\"input-search\" class=\"input\" placeholder=\"生徒名で検索\" style=\"width: 100%;\">\n    </div>\n  </div>\n\n  <!-- 操作ボタンエリア -->\n  <div style=\"margin-bottom: 20px;\">\n    <button class=\"action-btn\" id=\"btn-load-students\">生徒一覧読み込み</button>\n    <button class=\"action-btn\" id=\"btn-bulk-present\">一括出席登録</button>\n    <button class=\"action-btn\" id=\"btn-save-attendance\">出席データ保存</button>\n    <button class=\"action-btn secondary\" id=\"btn-attendance-history\">出席履歴表示</button>\n    <button class=\"action-btn secondary\" id=\"btn-send-notification\">保護者通知送信</button>\n  </div>\n\n  <!-- 出席率表示エリア -->\n  <div id=\"attendance-rate-area\" style=\"display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px;\">\n    <div class=\"card\" style=\"padding: 15px; text-align: center;\">\n      <div style=\"font-size: 24px; font-weight: bold; color: var(--text);\" id=\"total-students\">0</div>\n      <div style=\"color: var(--text-muted); font-size: 14px;\">総生徒数</div>\n    </div>\n    <div class=\"card\" style=\"padding: 15px; text-align: center;\">\n      <div style=\"font-size: 24px; font-weight: bold; color: #22c55e;\" id=\"present-count\">0</div>\n      <div style=\"color: var(--text-muted); font-size: 14px;\">出席</div>\n    </div>\n    <div class=\"card\" style=\"padding: 15px; text-align: center;\">\n      <div style=\"font-size: 24px; font-weight: bold; color: #ef4444;\" id=\"absent-count\">0</div>\n      <div style=\"color: var(--text-muted); font-size: 14px;\">欠席</div>\n    </div>\n    <div class=\"card\" style=\"padding: 15px; text-align: center;\">\n      <div style=\"font-size: 24px; font-weight: bold; color: var(--text);\" id=\"attendance-rate\">0%</div>\n      <div style=\"color: var(--text-muted); font-size: 14px;\">出席率</div>\n    </div>\n  </div>\n\n  <!-- 生徒出席管理テーブル -->\n  <div class=\"table-wrap\">\n    <table>\n      <thead>\n        <tr>\n          <th>生徒名</th>\n          <th>学年</th>\n          <th>出席状況</th>\n          <th>欠席理由</th>\n          <th>振替設定</th>\n          <th>操作</th>\n        </tr>\n      </thead>\n      <tbody id=\"students-tbody\">\n        <!-- 生徒一覧がここに表示される -->\n      </tbody>\n    </table>\n  </div>\n\n  <!-- 出席履歴表示エリア -->\n  <div id=\"history-area\" class=\"hidden\" style=\"margin-top: 30px;\">\n    <h3 style=\"color: var(--text); margin-bottom: 15px;\">出席履歴</h3>\n    <div class=\"table-wrap\">\n      <table>\n        <thead>\n          <tr>\n            <th>授業日</th>\n            <th>生徒名</th>\n            <th>出席状況</th>\n            <th>振替</th>\n            <th>備考</th>\n            <th>操作</th>\n          </tr>\n        </thead>\n        <tbody id=\"history-tbody\">\n          <!-- 出席履歴がここに表示される -->\n        </tbody>\n      </table>\n    </div>\n  </div>\n</div>\n\n<!-- 振替授業設定モーダル -->\n<div id=\"makeup-modal\" class=\"hidden\" style=\"position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;\">\n  <div class=\"card\" style=\"width: 400px; max-width: 90vw;\">\n    <h3 style=\"color: var(--text); margin-bottom: 20px;\">振替授業設定</h3>\n    <div style=\"margin-bottom: 15px;\">\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text);\">振替日</label>\n      <input type=\"date\" id=\"makeup-date\" class=\"input\" style=\"width: 100%;\">\n    </div>\n    <div style=\"margin-bottom: 20px;\">\n      <label style=\"display: block; margin-bottom: 5px; color: var(--text);\">備考</label>\n      <textarea id=\"makeup-note\" class=\"input\" rows=\"3\" style=\"width: 100%; resize: vertical;\"></textarea>\n    </div>\n    <div style=\"text-align: right;\">\n      <button class=\"action-btn secondary\" id=\"btn-cancel-makeup\">キャンセル</button>\n      <button class=\"action-btn\" id=\"btn-save-makeup\" style=\"margin-left: 10px;\">保存</button>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  let currentStudents = [];\n  let selectedStudentId = null;\n\n  // 今日の日付を初期値に設定\n  const today = new Date().toISOString().split('T')[0];\n  container.querySelector('#input-class-date').value = today;\n\n  // 出席履歴再描画関数\n  function renderAttendanceHistory(records) {\n    const tbody = container.querySelector('#history-tbody');\n    tbody.innerHTML = records.map(record => `\n      <tr data-id=\"${record.id}\">\n        <td>${new Date(record.授業日).toLocaleDateString()}</td>\n        <td>${record.生徒名 || ''}</td>\n        <td>\n          <span style=\"padding: 4px 8px; border-radius: 4px; font-size: 12px; \n            background: ${record.出席状況 === '出席' ? '#22c55e' : record.出席状況 === '欠席' ? '#ef4444' : '#f59e0b'}; \n            color: #ffffff;\">\n            ${record.出席状況}\n          </span>\n        </td>\n        <td>${record.振替フラグ ? '振替' : ''}</td>\n        <td>${record.備考 || ''}</td>\n        <td>\n          <button class=\"action-btn secondary delete-attendance-btn\" data-id=\"${record.id}\">削除</button>\n        </td>\n      </tr>\n    `).join('');\n  }\n\n  // 生徒一覧再描画関数\n  function renderStudents(students) {\n    const tbody = container.querySelector('#students-tbody');\n    currentStudents = students;\n    \n    tbody.innerHTML = students.map(student => `\n      <tr data-id=\"${student.id}\">\n        <td>${student.生徒氏名}</td>\n        <td>${student.学年}年生</td>\n        <td>\n          <select class=\"input attendance-select\" data-student-id=\"${student.id}\" style=\"width: 120px;\">\n            <option value=\"\">選択</option>\n            <option value=\"出席\">出席</option>\n            <option value=\"欠席\">欠席</option>\n            <option value=\"遅刻\">遅刻</option>\n            <option value=\"早退\">早退</option>\n          </select>\n        </td>\n        <td>\n          <input type=\"text\" class=\"input absence-reason\" data-student-id=\"${student.id}\" \n                 placeholder=\"欠席理由\" style=\"width: 150px;\">\n        </td>\n        <td>\n          <button class=\"action-btn secondary makeup-btn\" data-student-id=\"${student.id}\">振替設定</button>\n        </td>\n        <td>\n          <button class=\"action-btn secondary history-btn\" data-student-id=\"${student.id}\">履歴</button>\n        </td>\n      </tr>\n    `).join('');\n\n    updateAttendanceStats();\n  }\n\n  // 出席統計更新\n  function updateAttendanceStats() {\n    const selects = container.querySelectorAll('.attendance-select');\n    const total = selects.length;\n    let present = 0;\n    let absent = 0;\n\n    selects.forEach(select => {\n      if (select.value === '出席') present++;\n      if (select.value === '欠席') absent++;\n    });\n\n    const rate = total > 0 ? Math.round((present / total) * 100) : 0;\n\n    container.querySelector('#total-students').textContent = total;\n    container.querySelector('#present-count').textContent = present;\n    container.querySelector('#absent-count').textContent = absent;\n    container.querySelector('#attendance-rate').textContent = rate + '%';\n  }\n\n  // 初期データ表示\n  async function loadInitialData() {\n    const students = await window.aivicApi.list(0);\n    if (students) {\n      const activeStudents = students.filter(s => s.在籍状況);\n      renderStudents(activeStudents);\n    }\n\n    const attendanceRecords = await window.aivicApi.list(3);\n    if (attendanceRecords) {\n      // 生徒名を結合\n      const studentsMap = new Map((students || []).map(s => [s.id, s.生徒氏名]));\n      const enrichedRecords = attendanceRecords.map(record => ({\n        ...record,\n        生徒名: studentsMap.get(record.生徒ID) || '不明'\n      }));\n      renderAttendanceHistory(enrichedRecords);\n    }\n  }\n\n  // ナビゲーション\n  container.querySelector('#btn-dashboard').addEventListener('click', () => {\n    window.showScreen('scr-1778135812549');\n  });\n\n  container.querySelector('#btn-tuition').addEventListener('click', () => {\n    window.showScreen('scr-1778135743407');\n  });\n\n  container.querySelector('#btn-parent-contact').addEventListener('click', () => {\n    window.showScreen('scr-1778135802323');\n  });\n\n  // 生徒一覧読み込み\n  container.querySelector('#btn-load-students').addEventListener('click', async () => {\n    const students = await window.aivicApi.list(0);\n    if (students) {\n      const activeStudents = students.filter(s => s.在籍状況);\n      renderStudents(activeStudents);\n    }\n  });\n\n  // 検索機能\n  container.querySelector('#input-search').addEventListener('input', (e) => {\n    const keyword = e.target.value.toLowerCase();\n    const filtered = currentStudents.filter(student => \n      student.生徒氏名.toLowerCase().includes(keyword)\n    );\n    renderStudents(filtered);\n  });\n\n  // 一括出席登録\n  container.querySelector('#btn-bulk-present').addEventListener('click', () => {\n    const selects = container.querySelectorAll('.attendance-select');\n    selects.forEach(select => {\n      select.value = '出席';\n    });\n    updateAttendanceStats();\n  });\n\n  // 出席データ保存\n  container.querySelector('#btn-save-attendance').addEventListener('click', async () => {\n    const classDate = container.querySelector('#input-class-date').value;\n    if (!classDate) {\n      alert('授業日を選択してください');\n      return;\n    }\n\n    const selects = container.querySelectorAll('.attendance-select');\n    const savePromises = [];\n\n    selects.forEach(select => {\n      if (select.value) {\n        const studentId = select.dataset.studentId;\n        const reasonInput = container.querySelector(`input.absence-reason[data-student-id=\"${studentId}\"]`);\n        const reason = reasonInput ? reasonInput.value : '';\n\n        const attendanceData = {\n          生徒ID: studentId,\n          授業日: new Date(classDate).toISOString(),\n          出席状況: select.value,\n          振替フラグ: false,\n          備考: reason\n        };\n\n        savePromises.push(window.aivicApi.save(3, attendanceData));\n      }\n    });\n\n    if (savePromises.length === 0) {\n      alert('出席状況が選択されていません');\n      return;\n    }\n\n    try {\n      await Promise.all(savePromises);\n      alert('出席データを保存しました');\n      loadInitialData(); // 履歴を再読み込み\n    } catch (error) {\n      alert('保存に失敗しました');\n    }\n  });\n\n  // 出席履歴表示切り替え\n  container.querySelector('#btn-attendance-history').addEventListener('click', () => {\n    const historyArea = container.querySelector('#history-area');\n    historyArea.classList.toggle('hidden');\n  });\n\n  // 保護者通知送信\n  container.querySelector('#btn-send-notification').addEventListener('click', () => {\n    alert('保護者通知機能は開発中です');\n  });\n\n  // 出席状況変更時の統計更新\n  container.addEventListener('change', (e) => {\n    if (e.target.classList.contains('attendance-select')) {\n      updateAttendanceStats();\n    }\n  });\n\n  // 振替設定モーダル\n  container.addEventListener('click', (e) => {\n    const makeupBtn = e.target.closest('.makeup-btn');\n    if (makeupBtn) {\n      selectedStudentId = makeupBtn.dataset.studentId;\n      container.querySelector('#makeup-modal').classList.remove('hidden');\n    }\n\n    const historyBtn = e.target.closest('.history-btn');\n    if (historyBtn) {\n      const studentId = historyBtn.dataset.studentId;\n      // 特定生徒の履歴表示（簡易実装）\n      alert(`生徒ID: ${studentId} の履歴表示機能は開発中です`);\n    }\n\n    const deleteBtn = e.target.closest('.delete-attendance-btn');\n    if (deleteBtn) {\n      if (confirm('この出席記録を削除しますか？')) {\n        window.aivicApi.delete(3, deleteBtn.dataset.id).then(() => {\n          loadInitialData();\n        });\n      }\n    }\n  });\n\n  // モーダル操作\n  container.querySelector('#btn-cancel-makeup').addEventListener('click', () => {\n    container.querySelector('#makeup-modal').classList.add('hidden');\n  });\n\n  container.querySelector('#btn-save-makeup').addEventListener('click', async () => {\n    const makeupDate = container.querySelector('#makeup-date').value;\n    const makeupNote = container.querySelector('#makeup-note').value;\n    \n    if (!makeupDate) {\n      alert('振替日を選択してください');\n      return;\n    }\n\n    const makeupData = {\n      生徒ID: selectedStudentId,\n      授業日: new Date(makeupDate).toISOString(),\n      出席状況: '出席',\n      振替フラグ: true,\n      備考: makeupNote\n    };\n\n    const saved = await window.aivicApi.save(3, makeupData);\n    if (saved) {\n      alert('振替授業を設定しました');\n      container.querySelector('#makeup-modal').classList.add('hidden');\n      loadInitialData();\n    }\n  });\n\n  // 初期データ読み込み\n  loadInitialData();\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1778135802323",
+      "panelHtml": "<div class=\"card\">\n  <h2>保護者連絡</h2>\n  <p class=\"muted\">保護者への各種連絡事項の作成・送信・管理を行い、教室運営に関する重要な情報を効率的に伝達します</p>\n</div>\n\n<div style=\"display: flex; gap: 20px;\">\n  <!-- 左側: 連絡作成フォーム -->\n  <div style=\"flex: 1;\">\n    <div class=\"card\">\n      <h3>新規連絡作成</h3>\n      \n      <div style=\"margin-bottom: 15px;\">\n        <label style=\"display: block; margin-bottom: 5px; color: var(--text);\">連絡先選択</label>\n        <select id=\"select-recipient-type\" class=\"input\" style=\"width: 100%; margin-bottom: 10px;\">\n          <option value=\"all\">全体連絡</option>\n          <option value=\"class\">クラス別</option>\n          <option value=\"individual\">個別連絡</option>\n        </select>\n        \n        <div id=\"recipient-details\" style=\"display: none;\">\n          <select id=\"select-recipients\" class=\"input\" style=\"width: 100%;\" multiple>\n          </select>\n          <small class=\"muted\">複数選択可（Ctrlキー押しながらクリック）</small>\n        </div>\n      </div>\n\n      <div style=\"margin-bottom: 15px;\">\n        <label style=\"display: block; margin-bottom: 5px; color: var(--text);\">連絡種別</label>\n        <select id=\"select-contact-type\" class=\"input\" style=\"width: 100%;\">\n          <option value=\"announcement\">お知らせ</option>\n          <option value=\"tuition\">月謝</option>\n          <option value=\"attendance\">出席</option>\n          <option value=\"event\">イベント</option>\n          <option value=\"emergency\">緊急連絡</option>\n        </select>\n      </div>\n\n      <div style=\"margin-bottom: 15px;\">\n        <label style=\"display: block; margin-bottom: 5px; color: var(--text);\">件名</label>\n        <input type=\"text\" id=\"input-subject\" class=\"input\" style=\"width: 100%;\" placeholder=\"件名を入力してください\">\n      </div>\n\n      <div style=\"margin-bottom: 15px;\">\n        <label style=\"display: block; margin-bottom: 5px; color: var(--text);\">本文</label>\n        <textarea id=\"textarea-content\" class=\"input\" style=\"width: 100%; height: 150px; resize: vertical;\" placeholder=\"連絡内容を入力してください\"></textarea>\n      </div>\n\n      <div style=\"margin-bottom: 15px;\">\n        <label style=\"display: block; margin-bottom: 5px; color: var(--text);\">添付ファイル</label>\n        <input type=\"file\" id=\"input-attachment\" class=\"input\" style=\"width: 100%;\" multiple>\n      </div>\n\n      <div style=\"margin-bottom: 15px;\">\n        <label style=\"display: block; margin-bottom: 5px; color: var(--text);\">送信設定</label>\n        <select id=\"select-send-timing\" class=\"input\" style=\"width: 100%; margin-bottom: 10px;\">\n          <option value=\"immediate\">即時送信</option>\n          <option value=\"scheduled\">予約送信</option>\n        </select>\n        \n        <div id=\"schedule-datetime\" style=\"display: none;\">\n          <input type=\"datetime-local\" id=\"input-schedule-time\" class=\"input\" style=\"width: 100%;\">\n        </div>\n      </div>\n\n      <div style=\"margin-bottom: 15px;\">\n        <label style=\"display: block; margin-bottom: 5px; color: var(--text);\">テンプレート</label>\n        <div style=\"display: flex; gap: 10px;\">\n          <select id=\"select-template\" class=\"input\" style=\"flex: 1;\">\n            <option value=\"\">テンプレートを選択</option>\n            <option value=\"monthly-fee\">月謝のお知らせ</option>\n            <option value=\"absence-notice\">欠席連絡</option>\n            <option value=\"event-notice\">イベントのお知らせ</option>\n            <option value=\"emergency\">緊急連絡</option>\n          </select>\n          <button id=\"btn-save-template\" class=\"action-btn secondary\">保存</button>\n        </div>\n      </div>\n\n      <div style=\"display: flex; gap: 10px;\">\n        <button id=\"btn-send-contact\" class=\"action-btn\">送信</button>\n        <button id=\"btn-preview\" class=\"action-btn secondary\">プレビュー</button>\n        <button id=\"btn-clear\" class=\"action-btn secondary\">クリア</button>\n      </div>\n    </div>\n  </div>\n\n  <!-- 右側: 送信履歴・検索 -->\n  <div style=\"flex: 1;\">\n    <div class=\"card\">\n      <h3>送信履歴検索</h3>\n      \n      <div style=\"margin-bottom: 15px;\">\n        <input type=\"text\" id=\"input-search\" class=\"input\" style=\"width: 100%;\" placeholder=\"件名・内容で検索\">\n      </div>\n      \n      <div style=\"display: flex; gap: 10px; margin-bottom: 15px;\">\n        <select id=\"select-search-type\" class=\"input\" style=\"flex: 1;\">\n          <option value=\"\">全ての種別</option>\n          <option value=\"announcement\">お知らせ</option>\n          <option value=\"tuition\">月謝</option>\n          <option value=\"attendance\">出席</option>\n          <option value=\"event\">イベント</option>\n          <option value=\"emergency\">緊急連絡</option>\n        </select>\n        <button id=\"btn-search\" class=\"action-btn secondary\">検索</button>\n      </div>\n\n      <div class=\"table-wrap\">\n        <table>\n          <thead>\n            <tr>\n              <th>送信日時</th>\n              <th>種別</th>\n              <th>件名</th>\n              <th>送信先</th>\n              <th>状況</th>\n              <th>操作</th>\n            </tr>\n          </thead>\n          <tbody id=\"contact-history-tbody\">\n          </tbody>\n        </table>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- 送信確認ダイアログ -->\n<div id=\"send-confirmation-modal\" class=\"hidden\" style=\"position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;\">\n  <div class=\"card\" style=\"max-width: 500px; margin: 20px;\">\n    <h3>送信確認</h3>\n    <div id=\"confirmation-details\" style=\"margin: 20px 0; padding: 15px; background: var(--bg-card); border-left: 3px solid var(--primary);\">\n    </div>\n    <div style=\"display: flex; gap: 10px; justify-content: flex-end;\">\n      <button id=\"btn-cancel-send\" class=\"action-btn secondary\">キャンセル</button>\n      <button id=\"btn-confirm-send\" class=\"action-btn\">送信実行</button>\n    </div>\n  </div>\n</div>\n\n<!-- プレビューダイアログ -->\n<div id=\"preview-modal\" class=\"hidden\" style=\"position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;\">\n  <div class=\"card\" style=\"max-width: 600px; max-height: 80vh; overflow-y: auto; margin: 20px;\">\n    <h3>連絡内容プレビュー</h3>\n    <div id=\"preview-content\" style=\"margin: 20px 0; padding: 15px; background: var(--bg-card); border: 1px solid var(--border);\">\n    </div>\n    <div style=\"display: flex; justify-content: flex-end;\">\n      <button id=\"btn-close-preview\" class=\"action-btn secondary\">閉じる</button>\n    </div>\n  </div>\n</div>\n\n<!-- ナビゲーション -->\n<div class=\"card\" style=\"margin-top: 20px;\">\n  <div style=\"display: flex; gap: 10px;\">\n    <button id=\"btn-dashboard\" class=\"action-btn secondary\">ダッシュボード</button>\n    <button id=\"btn-attendance\" class=\"action-btn secondary\">出席管理</button>\n    <button id=\"btn-tuition\" class=\"action-btn secondary\">月謝管理</button>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  // 連絡履歴データ構造（仮想テーブル）\n  let contactHistory = [\n    {\n      id: \"contact-1\",\n      sentAt: \"2024-01-15T10:00:00\",\n      type: \"announcement\",\n      subject: \"1月の授業スケジュールについて\",\n      recipients: \"全体\",\n      recipientCount: 25,\n      readCount: 20,\n      status: \"sent\"\n    },\n    {\n      id: \"contact-2\", \n      sentAt: \"2024-01-10T14:30:00\",\n      type: \"tuition\",\n      subject: \"1月分月謝のお知らせ\",\n      recipients: \"全体\",\n      recipientCount: 25,\n      readCount: 25,\n      status: \"sent\"\n    }\n  ];\n\n  // テンプレートデータ\n  const templates = {\n    \"monthly-fee\": {\n      subject: \"月謝のお知らせ\",\n      content: \"いつもお世話になっております。\\n\\n今月の月謝についてお知らせいたします。\\n\\n金額：○○円\\n支払期限：○月○日\\n\\nご不明な点がございましたらお気軽にお問い合わせください。\"\n    },\n    \"absence-notice\": {\n      subject: \"欠席のご連絡\",\n      content: \"○○様の欠席についてご連絡いたします。\\n\\n欠席日：○月○日\\n理由：○○\\n\\n振替授業をご希望の場合は、お早めにご連絡ください。\"\n    },\n    \"event-notice\": {\n      subject: \"イベントのお知らせ\",\n      content: \"○○イベントについてお知らせいたします。\\n\\n開催日：○月○日\\n時間：○時〜○時\\n場所：○○\\n\\n参加をご希望の方は○月○日までにご連絡ください。\"\n    },\n    \"emergency\": {\n      subject: \"緊急連絡\",\n      content: \"緊急にご連絡いたします。\\n\\n内容：○○\\n\\nご不明な点がございましたら、すぐにお電話にてご連絡ください。\"\n    }\n  };\n\n  // 連絡履歴再描画関数\n  function renderContactHistory(history) {\n    const tbody = container.querySelector(\"#contact-history-tbody\");\n    tbody.innerHTML = history.map(contact => {\n      const sentDate = new Date(contact.sentAt).toLocaleString('ja-JP');\n      const typeLabels = {\n        announcement: \"お知らせ\",\n        tuition: \"月謝\", \n        attendance: \"出席\",\n        event: \"イベント\",\n        emergency: \"緊急連絡\"\n      };\n      \n      const readRate = `${contact.readCount}/${contact.recipientCount}`;\n      const statusBadge = contact.status === 'sent' ? \n        '<span style=\"background: #22c55e; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px;\">送信済</span>' :\n        '<span style=\"background: #f59e0b; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px;\">予約中</span>';\n      \n      return `\n        <tr data-id=\"${contact.id}\">\n          <td>${sentDate}</td>\n          <td>${typeLabels[contact.type] || contact.type}</td>\n          <td>${contact.subject}</td>\n          <td>${contact.recipients}</td>\n          <td>${statusBadge}<br><small class=\"muted\">既読: ${readRate}</small></td>\n          <td>\n            <button class=\"action-btn secondary view-btn\" data-id=\"${contact.id}\">詳細</button>\n            <button class=\"action-btn secondary delete-btn\" data-id=\"${contact.id}\">削除</button>\n          </td>\n        </tr>\n      `;\n    }).join(\"\");\n  }\n\n  // 保護者・生徒データ取得と連絡先選択肢更新\n  async function updateRecipientOptions() {\n    const students = await window.aivicApi.list(0) || [];\n    const guardians = await window.aivicApi.list(1) || [];\n    \n    const recipientSelect = container.querySelector(\"#select-recipients\");\n    recipientSelect.innerHTML = \"\";\n    \n    // 保護者別にグループ化\n    const guardianMap = {};\n    guardians.forEach(guardian => {\n      guardianMap[guardian.id] = guardian;\n    });\n    \n    students.forEach(student => {\n      if (student.在籍状況 && guardianMap[student.保護者ID]) {\n        const guardian = guardianMap[student.保護者ID];\n        const option = document.createElement(\"option\");\n        option.value = guardian.id;\n        option.textContent = `${guardian.保護者氏名} (${student.生徒氏名})`;\n        recipientSelect.appendChild(option);\n      }\n    });\n  }\n\n  // 初期データ描画\n  renderContactHistory(contactHistory);\n  updateRecipientOptions();\n\n  // 連絡先選択タイプ変更\n  container.querySelector(\"#select-recipient-type\").addEventListener(\"change\", (e) => {\n    const detailsDiv = container.querySelector(\"#recipient-details\");\n    if (e.target.value === \"individual\" || e.target.value === \"class\") {\n      detailsDiv.style.display = \"block\";\n    } else {\n      detailsDiv.style.display = \"none\";\n    }\n  });\n\n  // 送信タイミング変更\n  container.querySelector(\"#select-send-timing\").addEventListener(\"change\", (e) => {\n    const scheduleDiv = container.querySelector(\"#schedule-datetime\");\n    if (e.target.value === \"scheduled\") {\n      scheduleDiv.style.display = \"block\";\n    } else {\n      scheduleDiv.style.display = \"none\";\n    }\n  });\n\n  // テンプレート選択\n  container.querySelector(\"#select-template\").addEventListener(\"change\", (e) => {\n    const template = templates[e.target.value];\n    if (template) {\n      container.querySelector(\"#input-subject\").value = template.subject;\n      container.querySelector(\"#textarea-content\").value = template.content;\n    }\n  });\n\n  // テンプレート保存\n  container.querySelector(\"#btn-save-template\").addEventListener(\"click\", () => {\n    const subject = container.querySelector(\"#input-subject\").value;\n    const content = container.querySelector(\"#textarea-content\").value;\n    \n    if (!subject || !content) {\n      alert(\"件名と本文を入力してください\");\n      return;\n    }\n    \n    const templateName = prompt(\"テンプレート名を入力してください\");\n    if (templateName) {\n      // 実際の実装では API に保存\n      alert(`テンプレート「${templateName}」を保存しました`);\n    }\n  });\n\n  // プレビュー表示\n  container.querySelector(\"#btn-preview\").addEventListener(\"click\", () => {\n    const subject = container.querySelector(\"#input-subject\").value;\n    const content = container.querySelector(\"#textarea-content\").value;\n    const type = container.querySelector(\"#select-contact-type\").value;\n    \n    const typeLabels = {\n      announcement: \"お知らせ\",\n      tuition: \"月謝\",\n      attendance: \"出席\", \n      event: \"イベント\",\n      emergency: \"緊急連絡\"\n    };\n    \n    const previewContent = container.querySelector(\"#preview-content\");\n    previewContent.innerHTML = `\n      <div style=\"border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px;\">\n        <div style=\"color: var(--text-muted); font-size: 14px;\">種別: ${typeLabels[type]}</div>\n        <h4 style=\"margin: 5px 0; color: var(--text);\">${subject || \"（件名なし）\"}</h4>\n      </div>\n      <div style=\"white-space: pre-wrap; color: var(--text); line-height: 1.6;\">\n        ${content || \"（本文なし）\"}\n      </div>\n    `;\n    \n    container.querySelector(\"#preview-modal\").classList.remove(\"hidden\");\n  });\n\n  // プレビュー閉じる\n  container.querySelector(\"#btn-close-preview\").addEventListener(\"click\", () => {\n    container.querySelector(\"#preview-modal\").classList.add(\"hidden\");\n  });\n\n  // 送信ボタン\n  container.querySelector(\"#btn-send-contact\").addEventListener(\"click\", () => {\n    const recipientType = container.querySelector(\"#select-recipient-type\").value;\n    const subject = container.querySelector(\"#input-subject\").value;\n    const content = container.querySelector(\"#textarea-content\").value;\n    const type = container.querySelector(\"#select-contact-type\").value;\n    \n    if (!subject || !content) {\n      alert(\"件名と本文を入力してください\");\n      return;\n    }\n    \n    // 送信先数計算\n    let recipientCount = 0;\n    let recipientText = \"\";\n    \n    if (recipientType === \"all\") {\n      recipientCount = 25; // 仮の全体数\n      recipientText = \"全体\";\n    } else if (recipientType === \"individual\") {\n      const selected = Array.from(container.querySelector(\"#select-recipients\").selectedOptions);\n      recipientCount = selected.length;\n      recipientText = `個別 (${recipientCount}名)`;\n    } else {\n      recipientCount = 10; // 仮のクラス数\n      recipientText = \"クラス別\";\n    }\n    \n    if (recipientCount === 0) {\n      alert(\"送信先を選択してください\");\n      return;\n    }\n    \n    const typeLabels = {\n      announcement: \"お知らせ\",\n      tuition: \"月謝\",\n      attendance: \"出席\",\n      event: \"イベント\", \n      emergency: \"緊急連絡\"\n    };\n    \n    // 確認ダイアログ表示\n    const confirmationDetails = container.querySelector(\"#confirmation-details\");\n    confirmationDetails.innerHTML = `\n      <div><strong>種別:</strong> ${typeLabels[type]}</div>\n      <div><strong>件名:</strong> ${subject}</div>\n      <div><strong>送信先:</strong> ${recipientText}</div>\n      <div><strong>送信数:</strong> ${recipientCount}件</div>\n    `;\n    \n    container.querySelector(\"#send-confirmation-modal\").classList.remove(\"hidden\");\n  });\n\n  // 送信確認ダイアログ\n  container.querySelector(\"#btn-cancel-send\").addEventListener(\"click\", () => {\n    container.querySelector(\"#send-confirmation-modal\").classList.add(\"hidden\");\n  });\n\n  container.querySelector(\"#btn-confirm-send\").addEventListener(\"click\", () => {\n    // 実際の送信処理（API呼び出し）\n    const newContact = {\n      id: `contact-${Date.now()}`,\n      sentAt: new Date().toISOString(),\n      type: container.querySelector(\"#select-contact-type\").value,\n      subject: container.querySelector(\"#input-subject\").value,\n      recipients: container.querySelector(\"#select-recipient-type\").value === \"all\" ? \"全体\" : \"個別\",\n      recipientCount: 25,\n      readCount: 0,\n      status: \"sent\"\n    };\n    \n    contactHistory.unshift(newContact);\n    renderContactHistory(contactHistory);\n    \n    // フォームクリア\n    container.querySelector(\"#input-subject\").value = \"\";\n    container.querySelector(\"#textarea-content\").value = \"\";\n    \n    container.querySelector(\"#send-confirmation-modal\").classList.add(\"hidden\");\n    alert(\"連絡を送信しました\");\n  });\n\n  // クリアボタン\n  container.querySelector(\"#btn-clear\").addEventListener(\"click\", () => {\n    container.querySelector(\"#input-subject\").value = \"\";\n    container.querySelector(\"#textarea-content\").value = \"\";\n    container.querySelector(\"#select-template\").value = \"\";\n  });\n\n  // 検索機能\n  container.querySelector(\"#btn-search\").addEventListener(\"click\", () => {\n    const keyword = container.querySelector(\"#input-search\").value.toLowerCase();\n    const searchType = container.querySelector(\"#select-search-type\").value;\n    \n    let filtered = contactHistory;\n    \n    if (keyword) {\n      filtered = filtered.filter(contact => \n        contact.subject.toLowerCase().includes(keyword) ||\n        contact.recipients.toLowerCase().includes(keyword)\n      );\n    }\n    \n    if (searchType) {\n      filtered = filtered.filter(contact => contact.type === searchType);\n    }\n    \n    renderContactHistory(filtered);\n  });\n\n  // 行レベル操作（詳細・削除）\n  container.addEventListener(\"click\", async (e) => {\n    const viewBtn = e.target.closest(\".view-btn\");\n    const deleteBtn = e.target.closest(\".delete-btn\");\n    \n    if (viewBtn) {\n      const contactId = viewBtn.dataset.id;\n      const contact = contactHistory.find(c => c.id === contactId);\n      if (contact) {\n        alert(`詳細表示: ${contact.subject}\\n送信日時: ${new Date(contact.sentAt).toLocaleString('ja-JP')}\\n既読: ${contact.readCount}/${contact.recipientCount}`);\n      }\n    }\n    \n    if (deleteBtn) {\n      if (!confirm(\"この連絡履歴を削除しますか？\")) return;\n      \n      const contactId = deleteBtn.dataset.id;\n      contactHistory = contactHistory.filter(c => c.id !== contactId);\n      renderContactHistory(contactHistory);\n    }\n  });\n\n  // ナビゲーション\n  container.querySelector(\"#btn-dashboard\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1778135812549\");\n  });\n\n  container.querySelector(\"#btn-attendance\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1778135778537\");\n  });\n\n  container.querySelector(\"#btn-tuition\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1778135743407\");\n  });\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1778135812549",
+      "panelHtml": "<div class=\"dashboard-container\">\n  <!-- ヘッダー -->\n  <div class=\"dashboard-header\">\n    <h1>ダッシュボード</h1>\n    <div class=\"nav-buttons\">\n      <button class=\"action-btn\" id=\"btn-tuition\">月謝管理</button>\n      <button class=\"action-btn\" id=\"btn-attendance\">出席管理</button>\n      <button class=\"action-btn\" id=\"btn-contact\">保護者連絡</button>\n    </div>\n  </div>\n\n  <!-- メインコンテンツ -->\n  <div class=\"dashboard-grid\">\n    <!-- 第1行 -->\n    <div class=\"card summary-card\">\n      <h3>本日の出席状況</h3>\n      <div class=\"summary-stats\">\n        <div class=\"stat-item\">\n          <span class=\"stat-number\" id=\"today-present\">0</span>\n          <span class=\"stat-label\">出席</span>\n        </div>\n        <div class=\"stat-item\">\n          <span class=\"stat-number\" id=\"today-absent\">0</span>\n          <span class=\"stat-label\">欠席</span>\n        </div>\n        <div class=\"stat-item\">\n          <span class=\"stat-number\" id=\"today-late\">0</span>\n          <span class=\"stat-label\">遅刻</span>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card summary-card\">\n      <h3>今月の月謝収納状況</h3>\n      <div class=\"summary-stats\">\n        <div class=\"stat-item\">\n          <span class=\"stat-number\" id=\"tuition-paid\">0</span>\n          <span class=\"stat-label\">収納済</span>\n        </div>\n        <div class=\"stat-item\">\n          <span class=\"stat-number\" id=\"tuition-unpaid\">0</span>\n          <span class=\"stat-label\">未収</span>\n        </div>\n        <div class=\"stat-rate\" id=\"tuition-rate\">0%</div>\n      </div>\n    </div>\n\n    <div class=\"card summary-card\">\n      <h3>生徒数推移</h3>\n      <canvas id=\"student-chart\" width=\"300\" height=\"150\"></canvas>\n    </div>\n\n    <!-- 第2行 -->\n    <div class=\"card alert-card\">\n      <h3>未収金アラート</h3>\n      <div id=\"unpaid-alerts\" class=\"alert-list\">\n        <div class=\"alert-item\">データを読み込み中...</div>\n      </div>\n    </div>\n\n    <div class=\"card\">\n      <h3>今日の授業スケジュール</h3>\n      <div id=\"today-schedule\" class=\"schedule-list\">\n        <div class=\"schedule-item\">\n          <span class=\"time\">10:00-11:00</span>\n          <span class=\"class\">初級クラス</span>\n        </div>\n        <div class=\"schedule-item\">\n          <span class=\"time\">14:00-15:00</span>\n          <span class=\"class\">中級クラス</span>\n        </div>\n        <div class=\"schedule-item\">\n          <span class=\"time\">16:00-17:00</span>\n          <span class=\"class\">上級クラス</span>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card summary-card\">\n      <h3>今月の入退会</h3>\n      <div class=\"summary-stats\">\n        <div class=\"stat-item\">\n          <span class=\"stat-number\" id=\"new-students\">0</span>\n          <span class=\"stat-label\">新規入会</span>\n        </div>\n        <div class=\"stat-item\">\n          <span class=\"stat-number\" id=\"withdrawn-students\">0</span>\n          <span class=\"stat-label\">退会</span>\n        </div>\n      </div>\n    </div>\n\n    <!-- 第3行 -->\n    <div class=\"card\">\n      <h3>出席率ランキング（上位5名）</h3>\n      <div class=\"table-wrap\">\n        <table>\n          <thead>\n            <tr>\n              <th>順位</th>\n              <th>生徒名</th>\n              <th>出席率</th>\n            </tr>\n          </thead>\n          <tbody id=\"attendance-ranking\">\n            <tr><td colspan=\"3\" class=\"muted\">データを読み込み中...</td></tr>\n          </tbody>\n        </table>\n      </div>\n    </div>\n\n    <div class=\"card\">\n      <h3>月謝未納者一覧</h3>\n      <div class=\"table-wrap\">\n        <table>\n          <thead>\n            <tr>\n              <th>生徒名</th>\n              <th>未納月数</th>\n              <th>未納金額</th>\n            </tr>\n          </thead>\n          <tbody id=\"unpaid-tuition\">\n            <tr><td colspan=\"3\" class=\"muted\">データを読み込み中...</td></tr>\n          </tbody>\n        </table>\n      </div>\n    </div>\n\n    <div class=\"card\">\n      <h3>検定試験予定</h3>\n      <div id=\"exam-schedule\" class=\"exam-list\">\n        <div class=\"exam-item\">\n          <div class=\"exam-date\">2024年3月15日</div>\n          <div class=\"exam-name\">珠算検定3級</div>\n          <div class=\"exam-candidates\">申込者: 8名</div>\n        </div>\n        <div class=\"exam-item\">\n          <div class=\"exam-date\">2024年4月20日</div>\n          <div class=\"exam-name\">暗算検定2級</div>\n          <div class=\"exam-candidates\">申込者: 5名</div>\n        </div>\n      </div>\n    </div>\n\n    <!-- 第4行 -->\n    <div class=\"card\">\n      <h3>保護者からの連絡事項</h3>\n      <div id=\"parent-messages\" class=\"message-list\">\n        <div class=\"message-item\">\n          <div class=\"message-date\">2024/02/15</div>\n          <div class=\"message-content\">田中様: 来週火曜日は学校行事のため欠席予定です</div>\n        </div>\n        <div class=\"message-item\">\n          <div class=\"message-date\">2024/02/14</div>\n          <div class=\"message-content\">佐藤様: 検定試験の申込書を提出いたします</div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card\">\n      <h3>システム通知</h3>\n      <div id=\"system-notifications\" class=\"notification-list\">\n        <div class=\"notification-item info\">\n          <div class=\"notification-icon\">ℹ</div>\n          <div class=\"notification-content\">\n            <div class=\"notification-title\">システムメンテナンス予定</div>\n            <div class=\"notification-text\">2024年3月1日 2:00-4:00にシステムメンテナンスを実施します</div>\n          </div>\n        </div>\n        <div class=\"notification-item success\">\n          <div class=\"notification-icon\">✓</div>\n          <div class=\"notification-content\">\n            <div class=\"notification-title\">データバックアップ完了</div>\n            <div class=\"notification-text\">2024年2月15日のデータバックアップが正常に完了しました</div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<style>\n.dashboard-container {\n  padding: 20px;\n  max-width: 1400px;\n  margin: 0 auto;\n}\n\n.dashboard-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 30px;\n  padding-bottom: 20px;\n  border-bottom: 1px solid var(--border);\n}\n\n.dashboard-header h1 {\n  margin: 0;\n  color: var(--text);\n  font-size: 28px;\n  font-weight: 600;\n}\n\n.nav-buttons {\n  display: flex;\n  gap: 12px;\n}\n\n.dashboard-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));\n  gap: 20px;\n}\n\n.summary-card {\n  text-align: center;\n}\n\n.summary-stats {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  margin-top: 20px;\n}\n\n.stat-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.stat-number {\n  font-size: 32px;\n  font-weight: bold;\n  color: var(--primary);\n  line-height: 1;\n}\n\n.stat-label {\n  font-size: 14px;\n  color: var(--text-muted);\n  margin-top: 5px;\n}\n\n.stat-rate {\n  font-size: 24px;\n  font-weight: bold;\n  color: var(--primary);\n}\n\n.alert-card {\n  border-left: 4px solid #e74c3c;\n}\n\n.alert-list {\n  margin-top: 15px;\n}\n\n.alert-item {\n  padding: 12px;\n  background: rgba(231, 76, 60, 0.08);\n  border-radius: 6px;\n  margin-bottom: 8px;\n  color: var(--text);\n  font-size: 14px;\n}\n\n.schedule-list {\n  margin-top: 15px;\n}\n\n.schedule-item {\n  display: flex;\n  justify-content: space-between;\n  padding: 12px 0;\n  border-bottom: 1px solid var(--border);\n}\n\n.schedule-item:last-child {\n  border-bottom: none;\n}\n\n.time {\n  font-weight: 600;\n  color: var(--text);\n}\n\n.class {\n  color: var(--text-muted);\n}\n\n.exam-list {\n  margin-top: 15px;\n}\n\n.exam-item {\n  padding: 15px;\n  border: 1px solid var(--border);\n  border-radius: 6px;\n  margin-bottom: 10px;\n}\n\n.exam-date {\n  font-weight: 600;\n  color: var(--primary);\n  margin-bottom: 5px;\n}\n\n.exam-name {\n  font-size: 16px;\n  color: var(--text);\n  margin-bottom: 5px;\n}\n\n.exam-candidates {\n  font-size: 14px;\n  color: var(--text-muted);\n}\n\n.message-list {\n  margin-top: 15px;\n}\n\n.message-item {\n  padding: 12px 0;\n  border-bottom: 1px solid var(--border);\n}\n\n.message-item:last-child {\n  border-bottom: none;\n}\n\n.message-date {\n  font-size: 12px;\n  color: var(--text-muted);\n  margin-bottom: 5px;\n}\n\n.message-content {\n  color: var(--text);\n  font-size: 14px;\n}\n\n.notification-list {\n  margin-top: 15px;\n}\n\n.notification-item {\n  display: flex;\n  padding: 15px;\n  border-radius: 6px;\n  margin-bottom: 10px;\n  border-left: 4px solid var(--border);\n}\n\n.notification-item.info {\n  border-left-color: #3498db;\n  background: rgba(52, 152, 219, 0.08);\n}\n\n.notification-item.success {\n  border-left-color: #27ae60;\n  background: rgba(39, 174, 96, 0.08);\n}\n\n.notification-icon {\n  width: 24px;\n  height: 24px;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: bold;\n  margin-right: 12px;\n  flex-shrink: 0;\n  color: #d0e4ff;\n  background: var(--primary);\n}\n\n.notification-content {\n  flex: 1;\n}\n\n.notification-title {\n  font-weight: 600;\n  color: var(--text);\n  margin-bottom: 5px;\n}\n\n.notification-text {\n  font-size: 14px;\n  color: var(--text-muted);\n}\n\n#student-chart {\n  width: 100%;\n  height: 150px;\n  margin-top: 15px;\n}\n</style>",
+      "initJs": "function(container, apiUrl, tables) {\n  // ナビゲーションボタンのイベントリスナー\n  container.querySelector(\"#btn-tuition\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1778135743407\");\n  });\n  \n  container.querySelector(\"#btn-attendance\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1778135778537\");\n  });\n  \n  container.querySelector(\"#btn-contact\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1778135802323\");\n  });\n\n  // データ読み込みと表示更新\n  async function loadDashboardData() {\n    try {\n      const [students, guardians, tuitions, attendances] = await Promise.all([\n        window.aivicApi.list(0), // 生徒マスタ\n        window.aivicApi.list(1), // 保護者マスタ\n        window.aivicApi.list(2), // 月謝管理\n        window.aivicApi.list(3)  // 出席管理\n      ]);\n\n      if (!students || !tuitions || !attendances) {\n        console.error(\"データの読み込みに失敗しました\");\n        return;\n      }\n\n      updateDashboard(students, guardians, tuitions, attendances);\n    } catch (error) {\n      console.error(\"ダッシュボードデータの読み込みエラー:\", error);\n    }\n  }\n\n  function updateDashboard(students, guardians, tuitions, attendances) {\n    const today = new Date().toISOString().split('T')[0];\n    const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM\n\n    // 本日の出席状況\n    const todayAttendances = attendances.filter(a => \n      a.授業日 && a.授業日.startsWith(today)\n    );\n    \n    const presentCount = todayAttendances.filter(a => a.出席状況 === '出席').length;\n    const absentCount = todayAttendances.filter(a => a.出席状況 === '欠席').length;\n    const lateCount = todayAttendances.filter(a => a.出席状況 === '遅刻').length;\n\n    container.querySelector(\"#today-present\").textContent = presentCount;\n    container.querySelector(\"#today-absent\").textContent = absentCount;\n    container.querySelector(\"#today-late\").textContent = lateCount;\n\n    // 今月の月謝収納状況\n    const currentMonthTuitions = tuitions.filter(t => \n      t.対象年月 === currentMonth\n    );\n    \n    const paidCount = currentMonthTuitions.filter(t => t.支払済フラグ).length;\n    const unpaidCount = currentMonthTuitions.filter(t => !t.支払済フラグ).length;\n    const totalCount = currentMonthTuitions.length;\n    const paidRate = totalCount > 0 ? Math.round((paidCount / totalCount) * 100) : 0;\n\n    container.querySelector(\"#tuition-paid\").textContent = paidCount;\n    container.querySelector(\"#tuition-unpaid\").textContent = unpaidCount;\n    container.querySelector(\"#tuition-rate\").textContent = paidRate + \"%\";\n\n    // 今月の入退会者数\n    const activeStudents = students.filter(s => s.在籍状況);\n    const newStudents = activeStudents.filter(s => \n      s.入会日 && s.入会日.startsWith(currentMonth)\n    ).length;\n    \n    const withdrawnStudents = students.filter(s => \n      !s.在籍状況 && s.入会日 && s.入会日.startsWith(currentMonth)\n    ).length;\n\n    container.querySelector(\"#new-students\").textContent = newStudents;\n    container.querySelector(\"#withdrawn-students\").textContent = withdrawnStudents;\n\n    // 出席率ランキング\n    updateAttendanceRanking(students, attendances);\n\n    // 月謝未納者一覧\n    updateUnpaidTuitionList(students, tuitions);\n\n    // 未収金アラート\n    updateUnpaidAlerts(students, tuitions);\n\n    // 生徒数推移グラフ\n    drawStudentChart(students);\n  }\n\n  function updateAttendanceRanking(students, attendances) {\n    const activeStudents = students.filter(s => s.在籍状況);\n    const rankings = [];\n\n    activeStudents.forEach(student => {\n      const studentAttendances = attendances.filter(a => a.生徒ID === student.生徒ID);\n      const totalClasses = studentAttendances.length;\n      const presentClasses = studentAttendances.filter(a => a.出席状況 === '出席').length;\n      const attendanceRate = totalClasses > 0 ? Math.round((presentClasses / totalClasses) * 100) : 0;\n\n      rankings.push({\n        name: student.生徒氏名,\n        rate: attendanceRate\n      });\n    });\n\n    rankings.sort((a, b) => b.rate - a.rate);\n    const top5 = rankings.slice(0, 5);\n\n    const tbody = container.querySelector(\"#attendance-ranking\");\n    tbody.innerHTML = top5.map((item, index) => `\n      <tr>\n        <td>${index + 1}</td>\n        <td>${item.name || \"\"}</td>\n        <td>${item.rate}%</td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function updateUnpaidTuitionList(students, tuitions) {\n    const unpaidList = [];\n    \n    students.filter(s => s.在籍状況).forEach(student => {\n      const studentTuitions = tuitions.filter(t => \n        t.生徒ID === student.生徒ID && !t.支払済フラグ\n      );\n      \n      if (studentTuitions.length > 0) {\n        const totalAmount = studentTuitions.reduce((sum, t) => sum + (t.月謝金額 || 0), 0);\n        unpaidList.push({\n          name: student.生徒氏名,\n          months: studentTuitions.length,\n          amount: totalAmount\n        });\n      }\n    });\n\n    const tbody = container.querySelector(\"#unpaid-tuition\");\n    if (unpaidList.length === 0) {\n      tbody.innerHTML = '<tr><td colspan=\"3\" class=\"muted\">未納者はありません</td></tr>';\n    } else {\n      tbody.innerHTML = unpaidList.map(item => `\n        <tr>\n          <td>${item.name || \"\"}</td>\n          <td>${item.months}ヶ月</td>\n          <td>¥${item.amount.toLocaleString()}</td>\n        </tr>\n      `).join(\"\");\n    }\n  }\n\n  function updateUnpaidAlerts(students, tuitions) {\n    const alerts = [];\n    \n    students.filter(s => s.在籍状況).forEach(student => {\n      const unpaidTuitions = tuitions.filter(t => \n        t.生徒ID === student.生徒ID && !t.支払済フラグ\n      );\n      \n      if (unpaidTuitions.length >= 2) {\n        alerts.push(`${student.生徒氏名}さん: ${unpaidTuitions.length}ヶ月未納`);\n      }\n    });\n\n    const alertContainer = container.querySelector(\"#unpaid-alerts\");\n    if (alerts.length === 0) {\n      alertContainer.innerHTML = '<div class=\"alert-item\">未収金アラートはありません</div>';\n    } else {\n      alertContainer.innerHTML = alerts.map(alert => \n        `<div class=\"alert-item\">${alert}</div>`\n      ).join(\"\");\n    }\n  }\n\n  function drawStudentChart(students) {\n    const canvas = container.querySelector(\"#student-chart\");\n    const ctx = canvas.getContext(\"2d\");\n    \n    // Canvas サイズ設定\n    const rect = canvas.getBoundingClientRect();\n    canvas.width = rect.width * window.devicePixelRatio;\n    canvas.height = rect.height * window.devicePixelRatio;\n    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);\n    \n    const width = rect.width;\n    const height = rect.height;\n    \n    // 背景をクリア\n    ctx.clearRect(0, 0, width, height);\n    \n    // 過去6ヶ月のデータを生成\n    const months = [];\n    const counts = [];\n    \n    for (let i = 5; i >= 0; i--) {\n      const date = new Date();\n      date.setMonth(date.getMonth() - i);\n      const monthStr = date.toISOString().slice(0, 7);\n      months.push(date.getMonth() + 1 + \"月\");\n      \n      // その月時点での在籍者数を計算\n      const activeCount = students.filter(s => {\n        const joinDate = new Date(s.入会日);\n        return joinDate <= date && s.在籍状況;\n      }).length;\n      \n      counts.push(activeCount);\n    }\n    \n    // グラフ描画エリア\n    const padding = 40;\n    const chartWidth = width - padding * 2;\n    const chartHeight = height - padding * 2;\n    \n    const maxCount = Math.max(...counts, 10);\n    const stepX = chartWidth / (months.length - 1);\n    const stepY = chartHeight / maxCount;\n    \n    // グリッド線\n    ctx.strokeStyle = '#e0e6ed';\n    ctx.lineWidth = 1;\n    \n    for (let i = 0; i <= 5; i++) {\n      const y = padding + (chartHeight / 5) * i;\n      ctx.beginPath();\n      ctx.moveTo(padding, y);\n      ctx.lineTo(width - padding, y);\n      ctx.stroke();\n    }\n    \n    // データ線\n    ctx.strokeStyle = '#3498db';\n    ctx.lineWidth = 2;\n    ctx.beginPath();\n    \n    counts.forEach((count, index) => {\n      const x = padding + stepX * index;\n      const y = height - padding - (count * stepY);\n      \n      if (index === 0) {\n        ctx.moveTo(x, y);\n      } else {\n        ctx.lineTo(x, y);\n      }\n    });\n    \n    ctx.stroke();\n    \n    // データポイント\n    ctx.fillStyle = '#3498db';\n    counts.forEach((count, index) => {\n      const x = padding + stepX * index;\n      const y = height - padding - (count * stepY);\n      \n      ctx.beginPath();\n      ctx.arc(x, y, 4, 0, Math.PI * 2);\n      ctx.fill();\n    });\n    \n    // ラベル\n    ctx.fillStyle = '#64748b';\n    ctx.font = '12px sans-serif';\n    ctx.textAlign = 'center';\n    \n    months.forEach((month, index) => {\n      const x = padding + stepX * index;\n      ctx.fillText(month, x, height - 10);\n    });\n  }\n\n  // 初期データ読み込み\n  loadDashboardData();\n}",
+      "method": "ai"
+    }
+  ],
+  "tableDefinitions": [
+    {
+      "tableName": "生徒マスタ",
+      "purpose": "そろばん教室に通う生徒の基本情報を管理するマスタテーブル",
+      "columns": [
+        {
+          "name": "生徒ID",
+          "type": "uuid",
+          "required": true,
+          "description": "生徒を一意に識別するID"
+        },
+        {
+          "name": "生徒氏名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "生徒のフルネーム"
+        },
+        {
+          "name": "生年月日",
+          "type": "timestamp",
+          "required": true,
+          "description": "生徒の生年月日"
+        },
+        {
+          "name": "学年",
+          "type": "integer",
+          "required": true,
+          "description": "現在の学年（1-12、幼稚園は0）"
+        },
+        {
+          "name": "在籍状況",
+          "type": "boolean",
+          "required": true,
+          "description": "現在在籍中かどうか（true:在籍中、false:退会済み）"
+        },
+        {
+          "name": "入会日",
+          "type": "timestamp",
+          "required": true,
+          "description": "教室への入会日"
+        },
+        {
+          "name": "保護者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "生徒の保護者を識別するID"
+        }
+      ]
+    },
+    {
+      "tableName": "保護者マスタ",
+      "purpose": "そろばん教室に通う生徒の保護者情報を管理するマスタテーブル",
+      "columns": [
+        {
+          "name": "保護者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "保護者を一意に識別するID（主キー）"
+        },
+        {
+          "name": "保護者氏名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "保護者の氏名（姓名）"
+        },
+        {
+          "name": "電話番号",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "緊急連絡先となる保護者の電話番号"
+        },
+        {
+          "name": "メールアドレス",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "お知らせや連絡用のメールアドレス"
+        },
+        {
+          "name": "住所",
+          "type": "text",
+          "required": false,
+          "description": "保護者の住所（請求書送付先等）"
+        },
+        {
+          "name": "登録日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "保護者情報の登録日時"
+        }
+      ]
+    },
+    {
+      "tableName": "月謝管理",
+      "purpose": "生徒の月謝支払い状況と請求情報を管理する",
+      "columns": [
+        {
+          "name": "月謝ID",
+          "type": "uuid",
+          "required": true,
+          "description": "月謝管理の一意識別子"
+        },
+        {
+          "name": "生徒ID",
+          "type": "uuid",
+          "required": true,
+          "description": "生徒マスタへの外部キー"
+        },
+        {
+          "name": "対象年月",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "月謝対象の年月（YYYY-MM形式）"
+        },
+        {
+          "name": "月謝金額",
+          "type": "integer",
+          "required": true,
+          "description": "請求する月謝の金額"
+        },
+        {
+          "name": "支払済フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "月謝の支払い完了状況"
+        },
+        {
+          "name": "支払日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "月謝が支払われた日時"
+        }
+      ]
+    },
+    {
+      "tableName": "出席管理",
+      "purpose": "生徒の授業出席状況を記録・管理するテーブル",
+      "columns": [
+        {
+          "name": "出席ID",
+          "type": "uuid",
+          "required": true,
+          "description": "出席記録の一意識別子"
+        },
+        {
+          "name": "生徒ID",
+          "type": "uuid",
+          "required": true,
+          "description": "生徒マスタとの外部キー"
+        },
+        {
+          "name": "授業日",
+          "type": "timestamp",
+          "required": true,
+          "description": "授業が行われた日時"
+        },
+        {
+          "name": "出席状況",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "出席・欠席・遅刻・早退の区分"
+        },
+        {
+          "name": "振替フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "振替授業かどうかの判定"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "欠席理由や特記事項"
+        }
+      ]
+    }
+  ],
+  "presetSeedData": {
+    "保護者マスタ": [
+      {
+        "保護者ID": "par-001",
+        "保護者氏名": "田中美穂",
+        "電話番号": "090-1234-5678",
+        "メールアドレス": "tanaka.miho@gmail.com",
+        "住所": "東京都世田谷区三軒茶屋2-15-8",
+        "登録日時": "2024-03-15 10:30:00"
+      },
+      {
+        "保護者ID": "par-002",
+        "保護者氏名": "佐藤健一",
+        "電話番号": "080-9876-5432",
+        "メールアドレス": "sato.kenichi@yahoo.co.jp",
+        "住所": "神奈川県横浜市青葉区青葉台1-8-12",
+        "登録日時": "2024-02-20 14:15:00"
+      },
+      {
+        "保護者ID": "par-003",
+        "保護者氏名": "山田恵子",
+        "電話番号": "070-5555-7777",
+        "メールアドレス": "yamada.keiko@hotmail.com",
+        "住所": "埼玉県さいたま市大宮区大門町3-22-5",
+        "登録日時": "2024-01-10 09:45:00"
+      },
+      {
+        "保護者ID": "par-004",
+        "保護者氏名": "鈴木正雄",
+        "電話番号": "090-2468-1357",
+        "メールアドレス": "suzuki.masao@docomo.ne.jp",
+        "住所": "千葉県船橋市本町4-7-11",
+        "登録日時": "2024-04-05 16:20:00"
+      },
+      {
+        "保護者ID": "par-005",
+        "保護者氏名": "高橋麻衣",
+        "電話番号": "080-1357-9246",
+        "メールアドレス": "takahashi.mai@gmail.com",
+        "住所": "東京都杉並区荻窪5-18-3",
+        "登録日時": "2024-02-28 11:10:00"
+      },
+      {
+        "保護者ID": "par-006",
+        "保護者氏名": "伊藤大輔",
+        "電話番号": "070-8642-9753",
+        "メールアドレ": "ito.daisuke@au.com",
+        "住所": "神奈川県川崎市中原区武蔵小杉2-9-6",
+        "登録日時": "2024-03-22 13:35:00"
+      },
+      {
+        "保護者ID": "par-007",
+        "保護者氏名": "渡辺由美",
+        "電話番号": "090-7531-8642",
+        "メールアドレス": "watanabe.yumi@softbank.ne.jp",
+        "住所": "東京都練馬区石神井公園6-12-4",
+        "登録日時": "2024-01-18 15:50:00"
+      },
+      {
+        "保護者ID": "par-008",
+        "保護者氏名": "中村隆志",
+        "電話番号": "080-4826-1739",
+        "メールアドレス": "nakamura.takashi@gmail.com",
+        "住所": "埼玉県川口市栄町1-5-9",
+        "登録日時": "2024-04-12 08:25:00"
+      },
+      {
+        "保護者ID": "par-009",
+        "保護者氏名": "小林智子",
+        "電話番号": "070-9517-3628",
+        "メールアドレス": "kobayashi.tomoko@yahoo.co.jp",
+        "住所": "千葉県市川市八幡3-14-7",
+        "登録日時": "2024-02-14 12:40:00"
+      },
+      {
+        "保護者ID": "par-010",
+        "保護者氏名": "加藤修平",
+        "電話番号": "090-3691-4827",
+        "メールアドレス": "kato.shuhei@hotmail.com",
+        "住所": "東京都品川区大井町4-21-8",
+        "登録日時": "2024-03-08 17:15:00"
+      }
+    ],
+    "生徒マスタ": [
+      {
+        "生徒ID": "stu-001",
+        "生徒氏名": "田中陽太",
+        "生年月日": "2015-04-12 00:00:00",
+        "学年": 3,
+        "在籍状況": true,
+        "入会日": "2024-04-01 00:00:00",
+        "保護者ID": "par-001"
+      },
+      {
+        "生徒ID": "stu-002",
+        "生徒氏名": "佐藤花音",
+        "生年月日": "2013-08-25 00:00:00",
+        "学年": 5,
+        "在籍状況": true,
+        "入会日": "2024-03-15 00:00:00",
+        "保護者ID": "par-002"
+      },
+      {
+        "生徒ID": "stu-003",
+        "生徒氏名": "山田蓮",
+        "生年月日": "2016-11-08 00:00:00",
+        "学年": 2,
+        "在籍状況": true,
+        "入会日": "2024-02-01 00:00:00",
+        "保護者ID": "par-003"
+      },
+      {
+        "生徒ID": "stu-004",
+        "生徒氏名": "鈴木結愛",
+        "生年月日": "2014-02-14 00:00:00",
+        "学年": 4,
+        "在籍状況": false,
+        "入会日": "2024-01-10 00:00:00",
+        "保護者ID": "par-004"
+      },
+      {
+        "生徒ID": "stu-005",
+        "生徒氏名": "高橋大翔",
+        "生年月日": "2017-06-30 00:00:00",
+        "学年": 1,
+        "在籍状況": true,
+        "入会日": "2024-04-08 00:00:00",
+        "保護者ID": "par-005"
+      },
+      {
+        "生徒ID": "stu-006",
+        "生徒氏名": "伊藤心春",
+        "生年月日": "2012-12-03 00:00:00",
+        "学年": 6,
+        "在籍状況": true,
+        "入会日": "2024-01-22 00:00:00",
+        "保護者ID": "par-006"
+      },
+      {
+        "生徒ID": "stu-007",
+        "生徒氏名": "渡辺颯真",
+        "生年月日": "2015-09-18 00:00:00",
+        "学年": 3,
+        "在籍状況": true,
+        "入会日": "2024-02-15 00:00:00",
+        "保護者ID": "par-007"
+      },
+      {
+        "生徒ID": "stu-008",
+        "生徒氏名": "中村咲良",
+        "生年月日": "2018-01-22 00:00:00",
+        "学年": 0,
+        "在籍状況": true,
+        "入会日": "2024-05-01 00:00:00",
+        "保護者ID": "par-008"
+      },
+      {
+        "生徒ID": "stu-009",
+        "生徒氏名": "小林悠斗",
+        "生年月日": "2014-07-07 00:00:00",
+        "学年": 4,
+        "在籍状況": true,
+        "入会日": "2024-03-01 00:00:00",
+        "保護者ID": "par-009"
+      },
+      {
+        "生徒ID": "stu-010",
+        "生徒氏名": "加藤美桜",
+        "生年月日": "2016-05-16 00:00:00",
+        "学年": 2,
+        "在籍状況": true,
+        "入会日": "2024-04-15 00:00:00",
+        "保護者ID": "par-010"
+      }
+    ],
+    "月謝管理": [
+      {
+        "月謝ID": "fee-001",
+        "生徒ID": "stu-001",
+        "対象年月": "2024-05",
+        "月謝金額": 6000,
+        "支払済フラグ": true,
+        "支払日時": "2024-05-02 10:15:00"
+      },
+      {
+        "月謝ID": "fee-002",
+        "生徒ID": "stu-002",
+        "対象年月": "2024-05",
+        "月謝金額": 6000,
+        "支払済フラグ": true,
+        "支払日時": "2024-04-28 14:30:00"
+      },
+      {
+        "月謝ID": "fee-003",
+        "生徒ID": "stu-003",
+        "対象年月": "2024-05",
+        "月謝金額": 5500,
+        "支払済フラグ": false,
+        "支払日時": null
+      },
+      {
+        "月謝ID": "fee-004",
+        "生徒ID": "stu-005",
+        "対象年月": "2024-05",
+        "月謝金額": 5500,
+        "支払済フラグ": true,
+        "支払日時": "2024-05-01 09:45:00"
+      },
+      {
+        "月謝ID": "fee-005",
+        "生徒ID": "stu-006",
+        "対象年月": "2024-05",
+        "月謝金額": 7000,
+        "支払済フラグ": true,
+        "支払日時": "2024-04-30 16:20:00"
+      },
+      {
+        "月謝ID": "fee-006",
+        "生徒ID": "stu-007",
+        "対象年月": "2024-05",
+        "月謝金額": 6000,
+        "支払済フラグ": false,
+        "支払日時": null
+      },
+      {
+        "月謝ID": "fee-007",
+        "生徒ID": "stu-008",
+        "対象年月": "2024-05",
+        "月謝金額": 4500,
+        "支払済フラグ": true,
+        "支払日時": "2024-05-03 11:10:00"
+      },
+      {
+        "月謝ID": "fee-008",
+        "生徒ID": "stu-009",
+        "対象年月": "2024-05",
+        "月謝金額": 6000,
+        "支払済フラグ": true,
+        "支払日時": "2024-04-29 13:25:00"
+      },
+      {
+        "月謝ID": "fee-009",
+        "生徒ID": "stu-010",
+        "対象年月": "2024-05",
+        "月謝金額": 5500,
+        "支払済フラグ": false,
+        "支払日時": null
+      },
+      {
+        "月謝ID": "fee-010",
+        "生徒ID": "stu-001",
+        "対象年月": "2024-04",
+        "月謝金額": 6000,
+        "支払済フラグ": true,
+        "支払日時": "2024-04-05 15:40:00"
+      }
+    ],
+    "出席管理": [
+      {
+        "出席ID": "att-001",
+        "生徒ID": "stu-001",
+        "授業日": "2024-05-08 16:00:00",
+        "出席状況": "出席",
+        "振替フラグ": false,
+        "備考": ""
+      },
+      {
+        "出席ID": "att-002",
+        "生徒ID": "stu-002",
+        "授業日": "2024-05-08 17:00:00",
+        "出席状況": "出席",
+        "振替フラグ": false,
+        "備考": ""
+      },
+      {
+        "出席ID": "att-003",
+        "生徒ID": "stu-003",
+        "授業日": "2024-05-09 16:30:00",
+        "出席状況": "欠席",
+        "振替フラグ": false,
+        "備考": "発熱のため"
+      },
+      {
+        "出席ID": "att-004",
+        "生徒ID": "stu-005",
+        "授業日": "2024-05-10 15:30:00",
+        "出席状況": "遅刻",
+        "振替フラグ": false,
+        "備考": "学校行事のため15分遅れ"
+      },
+      {
+        "出席ID": "att-005",
+        "生徒ID": "stu-006",
+        "授業日": "2024-05-11 18:00:00",
+        "出席状況": "出席",
+        "振替フラグ": true,
+        "備考": "前週欠席分の振替"
+      },
+      {
+        "出席ID": "att-006",
+        "生徒ID": "stu-007",
+        "授業日": "2024-05-11 16:00:00",
+        "出席状況": "早退",
+        "振替フラグ": false,
+        "備考": "体調不良により30分で早退"
+      },
+      {
+        "出席ID": "att-007",
+        "生徒ID": "stu-008",
+        "授業日": "2024-05-13 15:00:00",
+        "出席状況": "出席",
+        "振替フラグ": false,
+        "備考": ""
+      },
+      {
+        "出席ID": "att-008",
+        "生徒ID": "stu-009",
+        "授業日": "2024-05-13 17:30:00",
+        "出席状況": "欠席",
+        "振替フラグ": false,
+        "備考": "家族旅行のため"
+      },
+      {
+        "出席ID": "att-009",
+        "生徒ID": "stu-010",
+        "授業日": "2024-05-14 16:30:00",
+        "出席状況": "出席",
+        "振替フラグ": false,
+        "備考": ""
+      },
+      {
+        "出席ID": "att-010",
+        "生徒ID": "stu-001",
+        "授業日": "2024-05-15 16:00:00",
+        "出席状況": "出席",
+        "振替フラグ": false,
+        "備考": ""
+      }
+    ]
+  }
+}
